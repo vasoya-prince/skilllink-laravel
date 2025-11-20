@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\CustomRegisterController;
+
 
 // -------------------------------
 // GUEST ROUTES (Not Logged In)
@@ -22,11 +22,7 @@ Route::middleware('guest')->group(function () {
     //     ->name('register');
     // Route::post('register', [RegisteredUserController::class, 'store']);
 
-    // ✅ Our custom registration
-    Route::get('register', [CustomRegisterController::class, 'showForm'])
-        ->name('register');
-    Route::post('register', [CustomRegisterController::class, 'register'])
-        ->name('register.store');
+
 
     // Login
     Route::get('login', [AuthenticatedSessionController::class, 'create'])

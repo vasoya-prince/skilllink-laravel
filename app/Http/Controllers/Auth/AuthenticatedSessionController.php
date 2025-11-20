@@ -24,30 +24,33 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        // Perform login
         $request->authenticate();
 
-        // Regenerate session
         $request->session()->regenerate();
 
-        // Get logged in user
         $user = Auth::user();
 
-        // Redirect based on role
-        if ($user->role === 'customer') {
-            return redirect()->route('customer.dashboard');
+        // Make sure these route names exist in your routes files:
+        //   - worker.dashboard
+        //   - customer.dashboard
+        // If they don't exist yet, replace ->route(...) with the path (e.g. '/worker/dashboard').
+        if ($user && $user->role === 'worker') {
+            if (route('worker.dashboard', [], false)) {
+                return redirect()->intended(route('worker.dashboard', absolute: false));
+            }
+            return redirect()->intended('/worker/dashboard');
         }
 
-        if ($user->role === 'worker') {
-            return redirect()->route('worker.dashboard');
+        // default: customer (or other roles) go to customer dashboard
+        if ($user && $user->role === 'customer') {
+            if (route('customer.dashboard', [], false)) {
+                return redirect()->intended(route('customer.dashboard', absolute: false));
+            }
+            return redirect()->intended('/customer/dashboard');
         }
 
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        }
-
-        // Fallback
-        return redirect()->route('dashboard');
+        // fallback
+        return redirect()->intended('/');
     }
 
     /**

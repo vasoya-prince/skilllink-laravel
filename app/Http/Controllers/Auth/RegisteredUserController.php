@@ -8,7 +8,6 @@ use App\Models\WorkerProfile;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -16,7 +15,7 @@ use Illuminate\View\View;
 class RegisteredUserController extends Controller
 {
     /**
-     * Show registration page.
+     * Display the registration view.
      */
     public function create(): View
     {
@@ -24,11 +23,10 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle registration request.
+     * Handle an incoming registration request.
      */
     public function store(Request $request): RedirectResponse
     {
-        // Validate only basic user information
         $request->validate([
             'role' => ['required', 'in:customer,worker'],
             'name' => ['required', 'string', 'max:255'],
@@ -38,7 +36,6 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Create new user
         $user = User::create([
             'role' => $request->role,
             'name' => $request->name,
@@ -48,8 +45,8 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // If worker → create empty worker profile
-        if ($user->role === 'worker') {
+        // If worker, create empty worker profile (no extra required fields at registration)
+        if ($request->role === 'worker') {
             WorkerProfile::create([
                 'user_id' => $user->id,
                 'experience_years' => 0,
@@ -58,15 +55,10 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        // Fire registered event
         event(new Registered($user));
 
-        // Make sure user is logged out after registration
-        Auth::guard('web')->logout();
-
-        // Redirect to login
-        return redirect()
-            ->route('login')
-            ->with('success', 'Account created successfully! Please login.');
+        // Ensure user is NOT auto-logged-in — send them to login to authenticate.
+        // Use a direct URL to avoid any 'intended' redirect interfering.
+        return redirect('/login')->with('success', 'Account created successfully! Please login.');
     }
 }

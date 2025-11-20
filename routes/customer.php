@@ -82,3 +82,6 @@ Route::get('/bookings/{id}/review', [CustomerReviewController::class, 'create'])
 
 Route::post('/bookings/{id}/review', [CustomerReviewController::class, 'store'])
     ->name('customer.review.store');
+    
+Route::get('/skills/{skillId}/workers', [CustomerSkillBrowseController::class, 'workers'])
+    ->name('customer.skills.workers');

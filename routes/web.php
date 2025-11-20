@@ -18,10 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-use App\Http\Controllers\Auth\CustomRegisterController;
 
-Route::get('/register', [CustomRegisterController::class, 'showForm'])->name('register');
-Route::post('/register', [CustomRegisterController::class, 'register'])->name('register.store');
 
 
 
