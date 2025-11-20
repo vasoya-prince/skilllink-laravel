@@ -1,0 +1,119 @@
+app/
+  Models/
+  Http/
+    Controllers/
+      Admin/
+      Worker/
+      Customer/
+resources/
+  views/
+    admin/
+    worker/
+    customer/
+database/
+  migrations/
+routes/
+  web.php
+  api.php
+
+
+
+
+
+
+app/
+ └── Models/
+      ├── User.php
+      ├── WorkerProfile.php
+      ├── Skill.php
+      ├── Booking.php
+      ├── Review.php
+      └── (Pivot auto: worker_skill)
+app/
+ └── Http/
+      └── Controllers/
+            ├── Admin/
+            │     ├── AdminDashboardController.php
+            │     ├── AdminUserController.php
+            │     ├── AdminWorkerController.php
+            │     ├── AdminSkillController.php
+            │     └── AdminBookingController.php
+            │
+            ├── Worker/
+            │     ├── WorkerDashboardController.php
+            │     ├── WorkerProfileController.php
+            │     ├── WorkerSkillController.php
+            │     ├── WorkerBookingController.php
+            │     └── WorkerReviewController.php
+            │
+            ├── Customer/
+            │     ├── CustomerDashboardController.php
+            │     ├── CustomerBookingController.php
+            │     ├── CustomerSearchController.php
+            │     └── CustomerReviewController.php
+            │
+            └── HomeController.php
+resources/
+ └── views/
+       ├── layouts/
+       │      ├── app.blade.php        (main layout)
+       │      ├── admin.blade.php      (admin layout)
+       │      ├── worker.blade.php     (worker layout)
+       │      └── customer.blade.php   (customer layout)
+       │
+       ├── home/
+       │      └── index.blade.php
+       │
+       ├── admin/
+       │      ├── dashboard.blade.php
+       │      ├── users/
+       │      │      └── index.blade.php
+       │      ├── workers/
+       │      │      └── index.blade.php
+       │      ├── skills/
+       │      │      ├── index.blade.php
+       │      │      └── create.blade.php
+       │      └── bookings/
+       │             └── index.blade.php
+       │
+       ├── worker/
+       │      ├── dashboard.blade.php
+       │      ├── profile.blade.php
+       │      ├── skills.blade.php
+       │      ├── bookings.blade.php
+       │      └── reviews.blade.php
+       │
+       ├── customer/
+       │      ├── dashboard.blade.php
+       │      ├── search.blade.php
+       │      ├── worker_profile.blade.php
+       │      ├── bookings.blade.php
+       │      └── reviews.blade.php
+       │
+       └── components/
+              └── (for UI components like sidebar, navbar)
+routes/
+ ├── web.php
+ ├── admin.php
+ ├── worker.php
+ └── customer.php
+
+app/
+ └── Http/
+      └── Middleware/
+            ├── AdminMiddleware.php
+            ├── WorkerMiddleware.php
+            └── CustomerMiddleware.php
+
+
+
+
+database/migrations/
+create_users_table.php
+create_worker_profiles_table.php
+create_skills_table.php
+create_worker_skill_table.php
+create_bookings_table.php
+create_reviews_table.php
+
+
